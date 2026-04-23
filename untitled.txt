@@ -1,0 +1,13 @@
+# Medical Insurance Cost Prediction
+
+## Датасет
+- Источник: Kaggle
+- Строк: 100,000
+- Колонок: 54
+- Тип: Monetary
+
+## Fixed Seed
+RANDOM_SEED = 42
+
+## Результаты CP1
+- Baseline Linear Regression: R² = 0.9601
