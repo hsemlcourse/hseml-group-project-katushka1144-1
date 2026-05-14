@@ -104,3 +104,4 @@ htmlcov/
 *.pkl
 *.h5
 *.joblib
+*.pkl
