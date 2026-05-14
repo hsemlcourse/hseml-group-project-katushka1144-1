@@ -101,3 +101,6 @@ ehthumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+*.pkl
+*.h5
+*.joblib
