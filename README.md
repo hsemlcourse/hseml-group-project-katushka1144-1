@@ -1,87 +1,65 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/kOqwghv0)
-# ML Project — [Название проекта]
+# Medical Insurance Cost Prediction - CP2
 
-**Студент:** [ФИО / Student ID]
-
-**Группа:** [Группа]
-
-
-## Оглавление
-
-1. [Описание задачи](#описание-задачи)
-2. [Структура репозитория](#структура-репозитория)
-3. [Запуски](#быстрый-старт)
-4. [Данные](#данные)
-5. [Результаты](#результаты)
-7. [Отчёт](#отчёт)
-
+**Студент:** Круковская Екатерина Петровна
 
 ## Описание задачи
 
-<!-- Кратко опишите задачу: что предсказываем, какой датасет, метрика качества -->
+Тип задачи: регрессия.
+Цель: предсказать годовые медицинские расходы (annual_medical_cost).
+Метрики: RMSE (основная), MAE, R².
+Датасет: Medical Insurance Cost Prediction (Kaggle).
+## Структура проекта
 
-**Задача:** [Классификация / Регрессия / Кластеризация / ...]
+- cp1_data_preprocessing.ipynb - обработка данных
+- cp2_modeling.ipynb - моделирование
+- medical_insurance.csv - исходные данные
+- medical_insurance_processed.csv - обработанные данные
+- X_train.csv, X_val.csv, X_test.csv - сплиты признаков
+- y_train.csv, y_val.csv, y_test.csv - сплиты целевой переменной
+- requirements.txt - зависимости
+- pyproject.toml - конфигурация проекта
+- Dockerfile - Docker контейнер
+- .gitignore - игнорируемые файлы
+- README.md - описание проекта
 
-**Датасет:** [Название и источник датасета]
+## Запуск проекта
 
-**Целевая метрика:** [Accuracy / F1 / RMSE / ...]
-
-
-## Структура репозитория
-Опишите структуру проекта, сохранив при этом верхнеуровневые папки. Можно добавить новые при необходимости.
-```
-.
-├── data
-│   ├── processed               # Очищенные и обработанные данные
-│   └── raw                     # Исходные файлы
-├── models                      # Сохранённые модели 
-├── notebooks
-│   ├── 01_eda.ipynb            # EDA
-│   ├── 02_baseline.ipynb       # Baseline-модель
-│   └── 03_experiments.ipynb    # Эксперименты и ablation study
-├── presentation                # Презентация для защиты
-├── report
-│   ├── images                  # Изображения для отчёта
-│   └── report.md               # Финальный отчёт
-├── src
-│   ├── preprocessing.py        # Предобработка данных
-│   └── modeling.py             # Обучение и оценка моделей
-├── tests
-│   └── test.py                 # Тесты пайплайна
-├── requirements.txt
-└── README.md
-```
-
-## Запуск
-
-Этот блок замените способом запуска вашего сервиса.
-```bash
-# 1. Клонировать репозиторий
-git clone <url>
-cd <repo-name>
-
-# 2. Создать виртуальное окружение
-python -m venv .venv
-source .venv/bin/activate   # Linux/macOS
-# .venv\Scripts\activate    # Windows
-
-# 3. Установить зависимости
+git clone https://github.com/hsemlcourse/hseml-group-project-katushka1144-1.git
+cd hseml-group-project-katushka1144-1
 pip install -r requirements.txt
-```
-
-## Данные
-- `data/raw/` — исходные файлы
-- `data/processed/` — предобработанные данные
+jupyter notebook cp2_modeling.ipynb
 
 
-## Результаты
-Здесь коротко выпишите результаты.
-| Модель | [Метрика 1] | [Метрика 2] | Примечание |
-|--------|-------------|-------------|------------|
-| Baseline | — | — | |
-| Лучшая модель | — | — | |
+## Результаты CP2
 
+Сравнение моделей:
 
-## Отчёт
+| Модель | RMSE | MAE | R² |
+|--------|------|-----|-----|
+| Linear Regression (Baseline) | $626.55 | $322.13 | 0.9601 |
+| Ridge  ----------------------| $626.55 | $322.08 | 0.9601 |
+| Lasso  ----------------------| $626.69 | $320.66 | 0.9601 |
+| Random Forest ---------------| $194.70 | $11.53 | 0.9961 |
+| XGBoost ---------------------| $564.42 | $57.81 | 0.9676 |
+| LightGBM --------------------| $533.39 | $50.61 | 0.9711 |
+| Voting Regressor ------------| $389.20 | $32.72 | 0.9846 |
+| Stacking Regressor --------- | $195.71 | $12.03 | 0.9961 |
 
-Финальный отчёт: [`report/report.md`](report/report.md)
+Уменьшение размерности (PCA):
+Random Forest после PCA показал R² = 0.9960.
+
+Финальная модель: Random Forest
+Параметры: n_estimators=100, max_depth=20, min_samples_split=2, min_samples_leaf=2
+Результат: R² = 0.9961
+
+## Fixed Seed
+
+RANDOM_SEED = 42
+
+## Выводы
+
+Random Forest показал лучший результат. Ансамбли близки к нему. Линейные модели не улучшили baseline. PCA не ухудшил качество.
+
+## Ссылка
+
+https://github.com/hsemlcourse/hseml-group-project-katushka1144-1/tree/cp2
